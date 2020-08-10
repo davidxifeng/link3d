@@ -31,6 +31,7 @@ function App() {
 		<div style={{
 			margin: 'auto',
 			width: '500px',
+			backgroundColor: 'black',
 		}}>
 			<canvas
 				ref={canvasRef}
