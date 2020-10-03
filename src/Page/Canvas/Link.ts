@@ -1,4 +1,5 @@
-export const setPixel = (imageData: ImageData, x: number,
+
+export const setPixelRGBA = (imageData: ImageData, x: number,
 	y: number, r: number, g: number, b: number, a: number) => {
 		const baseIndex = y * imageData.width * 4 + x * 4
 		const data = imageData.data
@@ -8,7 +9,7 @@ export const setPixel = (imageData: ImageData, x: number,
 		data[baseIndex + 3] = a
 }
 
-export const setPixel2 = (imageData: ImageData, x: number,
+export const setPixel = (imageData: ImageData, x: number,
 	y: number, color: number) => {
 		const data = imageData.data
 		const baseIndex = y * imageData.width * 4 + x * 4
