@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 
 import { CanvasPlayground } from './Page/Canvas/Canvas';
-import { Rubik } from './Page/Rubik/Rubik';
+import { Rubik } from './Page/Rubik/ViewRubik';
 
 
 export const App = () => {

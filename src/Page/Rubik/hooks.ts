@@ -2,7 +2,7 @@ import React from 'react'
 
 const scale = 0.15
 const initRotateX = -25
-const initRotateY = 35
+const initRotateY = -45
 
 export const useRubikOrientation = () => {
 	const [angle, setAngle] = React.useState({x: initRotateX, y: initRotateY})
@@ -19,7 +19,7 @@ export const useRubikOrientation = () => {
 		const handleMouseMove = function (this:Window, event: MouseEvent) {
 			if (!doUpdate) { return }
 			const deltaX = event.clientX - lastX, deltaY = event.clientY - lastY
-			setAngle(v => ({ x: v.x + deltaY * scale, y: v.y + deltaX * scale, }))
+			setAngle(v => ({ x: v.x - deltaY * scale, y: v.y + deltaX * scale, }))
 			lastX = event.clientX
 			lastY = event.clientY
 		}

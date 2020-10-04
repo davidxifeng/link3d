@@ -17,15 +17,19 @@ export const useStyles = makeStyles({
 		transformStyle: 'preserve-3d',
 	},
 
-	cubeFace: {
+	facelet: {
 		position: 'absolute',
 		width: '100px',
 		height: '100px',
 		textAlign: 'center',
 		lineHeight: '100px',
 		fontSize: '26px',
-		color: 'rgb(255,255,255)',
 		userSelect: 'none',
-		borderRadius: '10px',
+		//backgroundColor: 'RGBA(0, 0, 0, 0.7)',
+		backgroundColor: 'RGBA(0, 0, 0, 1)',
+		padding: '5px',
+	},
+	sticker: {
+		borderRadius: '20px',
 	},
 })
