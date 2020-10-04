@@ -2,22 +2,14 @@
 import { makeStyles } from '@material-ui/styles'
 
 export const useStyles = makeStyles({
-	stage: {
-		width: '100vw', height: '80vh', 
-	},
-
-	devInfoTip: {
- 		userSelect: 'none', 
-	},
-
-	rubik: {
+	world: {
 		margin: 'auto',
 		paddingTop: '200px',
 		width: 300,
 		height: 300,
 		perspective: 800,
 	},
-	world: {
+	rubik: {
 		position: 'relative', width: '100%', height: '100%',
 		transformStyle: 'preserve-3d',
 	},

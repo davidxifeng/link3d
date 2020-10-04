@@ -24,7 +24,7 @@ interface FaceProps {
 	face: FaceType
 }
 
-export const Face = (props: FaceProps) => {
+export const Facelet = (props: FaceProps) => {
 	const styles = useStyles()
 	const face = props.face
 	let faceTransform

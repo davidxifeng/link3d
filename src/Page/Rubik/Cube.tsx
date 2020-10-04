@@ -1,5 +1,5 @@
 import React from 'react'
-import { Face, FaceType } from './Face'
+import { Facelet, FaceType } from './Facelet'
 import { useStyles } from './styles'
 
 interface Cube {
@@ -62,6 +62,6 @@ export const Cube = (props: CubeProps) => {
 	return (<div className={styles.cube} style={{
 		transform: `translate3d(${x * 100}px, ${y * -100}px, ${z * -100}px)`,
 	}}>
-		{faces.map((value, index) => <Face face={value} key={index}></Face>)}
+		{faces.map((value, index) => <Facelet face={value} key={index}></Facelet>)}
 	</div>)
 }
