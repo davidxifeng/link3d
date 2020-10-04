@@ -3,12 +3,12 @@ import { Facelet } from './rubik'
 import { useStyles } from './styles'
 
 export enum FaceType {
-	Front = 1,
-	Back,
-	Left,
-	Right,
-	Top,
-	Bottom,
+	Front = 'front',
+	Back = 'back',
+	Left = 'left',
+	Right = 'right',
+	Top = 'top',
+	Bottom = 'bottom',
 }
 
 const FaceColors = {

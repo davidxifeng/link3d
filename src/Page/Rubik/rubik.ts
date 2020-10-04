@@ -16,11 +16,20 @@ export interface Facelet {
 	color: FaceType
 }
 
+export interface Facelets {
+	front?: Facelet
+	back?: Facelet
+	left?: Facelet
+	right?: Facelet
+	top?: Facelet
+	bottom?: Facelet
+}
+
 export interface Cubie {
 	/**
 	 * cubie面
 	 */
-	faceletList: Facelet[]
+	facelets: Facelets
 
 	/**
 	 * cubie的显示位置
@@ -53,20 +62,47 @@ const changedIndexByRotateX = (base: CubiePos, count: RotateCount): [CubieIndex[
 
 
 
-const rotateRight = (cubieList: CubieList, count: RotateCount): CubieList => {
-	const newCubieList = cubieList.map(v => ({
-		cubieIndex: v.cubieIndex,
-		faceletList: [...v.faceletList],
-	}))
-	const [indexList, rotatedIndexList] = changedIndexByRotateX(2, count)
-	for (let i = 0; i < indexList.length; i++) {
-		const newIndex = rotatedIndexList[i]
-		const oldIndex = indexList[i]
-		console.log(newCubieList[newIndex])
-		console.log(cubieList[oldIndex])
-		//newCubieList[newIndex].cubieIndex = cubieList[oldIndex].cubieIndex
+const rotateFaceletsX = (facelets: Facelets, count: RotateCount = 1): Facelets => {
+	if (count === 1) {
+		return {
+			front: facelets.bottom && { transform: FaceType.Front, color: facelets.bottom.color},
+			top: facelets.front && { transform: FaceType.Top, color: facelets.front.color},
+			back: facelets.top && { transform: FaceType.Back, color: facelets.top.color},
+			bottom: facelets.back && { transform: FaceType.Bottom, color: facelets.back.color},
+			left: facelets.left && { transform: FaceType.Left, color: facelets.left.color},
+			right: facelets.right && { transform: FaceType.Right, color: facelets.right.color},
+		}
+	} else if (count === 2) {
+		return {
+			front: facelets.back && { transform: FaceType.Front, color: facelets.back.color},
+			top: facelets.bottom && { transform: FaceType.Top, color: facelets.bottom.color},
+			back: facelets.front && { transform: FaceType.Back, color: facelets.front.color},
+			bottom: facelets.top && { transform: FaceType.Bottom, color: facelets.top.color},
+			left: facelets.left && { transform: FaceType.Left, color: facelets.left.color},
+			right: facelets.right && { transform: FaceType.Right, color: facelets.right.color},
+		}
+	} else {
+		return {
+			front: facelets.top && { transform: FaceType.Front, color: facelets.top.color},
+			top: facelets.back && { transform: FaceType.Top, color: facelets.back.color},
+			back: facelets.bottom && { transform: FaceType.Back, color: facelets.bottom.color},
+			bottom: facelets.front && { transform: FaceType.Bottom, color: facelets.front.color},
+			left: facelets.left && { transform: FaceType.Left, color: facelets.left.color},
+			right: facelets.right && { transform: FaceType.Right, color: facelets.right.color},
+		}
 	}
+}
 
+
+const rotateX = (cubieList: CubieList, pos: CubiePos, count: RotateCount): CubieList => {
+	const newCubieList: CubieList = cubieList.map(v => ({ cubieIndex: v.cubieIndex, facelets: v.facelets, }))
+
+	const [indexList, rotatedIndexList] = changedIndexByRotateX(pos, count)
+	for (let i = 0; i < indexList.length; i++) {
+		const newIndex = indexList[i]
+		const oldIndex = rotatedIndexList[i]
+		newCubieList[newIndex].facelets = rotateFaceletsX(cubieList[oldIndex].facelets, count)
+	}
 	return newCubieList
 }
 
@@ -95,38 +131,74 @@ const initFacelet = (type: FaceType): Facelet => {
 
 const buildInitCube = (value: [CubiePos, CubiePos, CubiePos], index: number): Cubie => {
 	const [x, y, z] = value
-	const faces: Facelet[] = []
-	if (x === 0) { faces.push(initFacelet(FaceType.Left))
-	} else if (x === 2) { faces.push(initFacelet(FaceType.Right))
+	const facelets: Facelets = {}
+	if (x === 0) {
+		facelets.left = initFacelet(FaceType.Left)
+	} else if (x === 2) {
+		facelets.right = initFacelet(FaceType.Right)
 	}
 
-	if (y === 0) { faces.push(initFacelet(FaceType.Bottom))
-	} else if (y === 2) { faces.push(initFacelet(FaceType.Top))
+	if (y === 0) {
+		facelets.bottom = initFacelet(FaceType.Bottom)
+	} else if (y === 2) {
+		facelets.top = initFacelet(FaceType.Top)
 	}
 
-	if (z === 0) { faces.push(initFacelet(FaceType.Front))
-	} else if (z === 2) { faces.push(initFacelet(FaceType.Back))
+	if (z === 0) {
+		facelets.front = initFacelet(FaceType.Front)
+	} else if (z === 2) {
+		facelets.back = initFacelet(FaceType.Back)
 	}
-	return { faceletList: faces, cubieIndex: index, }
+	return { facelets: facelets, cubieIndex: index, }
 }
 
 export type CubieList = Cubie[]
 
 export type CubeAction =
 	| ReturnType<typeof R>
+	| ReturnType<typeof L>
+	| ReturnType<typeof M>
 	| ReturnType<typeof U>
+	| ReturnType<typeof M_Y>
+	| ReturnType<typeof D>
+	| ReturnType<typeof F>
+	| ReturnType<typeof B>
+	| ReturnType<typeof M_Z>
 
 export const R = (count: RotateCount) => ({ type: 'rotate_right', count, } as const)
+export const M = (count: RotateCount) => ({ type: 'rotate_middle', count, } as const)
+export const L = (count: RotateCount) => ({ type: 'rotate_left', count, } as const)
+
+export const D = (count: RotateCount) => ({ type: 'rotate_down', count, } as const)
+export const M_Y = (count: RotateCount) => ({ type: 'rotate-middle-y', count, } as const)
 export const U = (count: RotateCount) => ({ type: 'rotate_up', count, } as const)
+
+export const F = (count: RotateCount) => ({ type: 'rotate-front', count, } as const)
+export const B = (count: RotateCount) => ({ type: 'rotate-back', count, } as const)
+export const M_Z = (count: RotateCount) => ({ type: 'rotate-middle-z', count, } as const)
 
 export const rubikReducer = (cubes: CubieList, action: CubeAction): CubieList => {
 	switch(action.type)	{
-		case 'rotate_right': return rotateRight(cubes, action.count)
-		case 'rotate_up': return rotateUp(cubes, action.count)
+		case 'rotate_left': return rotateX(cubes, 0, action.count)
+		case 'rotate_middle': return rotateX(cubes, 1, action.count)
+		case 'rotate_right': return rotateX(cubes, 2, action.count)
+
+		case 'rotate_down': return rotateY(cubes, 0, action.count)
+		case 'rotate-middle-y': return rotateY(cubes, 1, action.count)
+		case 'rotate_up': return rotateY(cubes, 2, action.count)
+
+		case 'rotate-front': return rotateZ(cubes, 0, action.count)
+		case 'rotate-middle-z': return rotateZ(cubes, 1, action.count)
+		case 'rotate-back': return rotateZ(cubes, 2, action.count)
+
 		default: return cubes
 	}
 }
 
-const rotateUp = (cubes: CubieList, count: RotateCount) => {
+const rotateY = (cubes: CubieList, pos: CubiePos, count: RotateCount) => {
+	return cubes
+}
+
+const rotateZ = (cubes: CubieList, pos: CubiePos, count: RotateCount) => {
 	return cubes
 }

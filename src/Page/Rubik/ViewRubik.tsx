@@ -1,7 +1,7 @@
 import React from 'react'
 import { CubieView, } from './ViewCubie'
 import { useRubikOrientation } from './hooks'
-import { R, rubikInit, rubikReducer, U } from './rubik'
+import { L, M, R, rubikInit, rubikReducer, U } from './rubik'
 import { useStyles } from './styles'
 
 
@@ -14,6 +14,14 @@ export const Rubik = () => {
 		(index === 13 ? null : <CubieView cube={cube} key={index} />))
 
 	return (<div>
+		<button onClick={() => dispatch(L(1))}>Left</button>
+		<button onClick={() => dispatch(L(2))}>Left 2</button>
+		<button onClick={() => dispatch(L(3))}>Left'</button>
+
+		<button onClick={() => dispatch(M(1))}>Middle</button>
+		<button onClick={() => dispatch(M(2))}>Middle 2</button>
+		<button onClick={() => dispatch(M(3))}>Middle'</button>
+
 		<button onClick={() => dispatch(R(1))}>Right</button>
 		<button onClick={() => dispatch(R(2))}>Right 2</button>
 		<button onClick={() => dispatch(R(3))}>Right'</button>
