@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 
 
 export const CanvasPlayground = () => {
-	const canvasRef = React.createRef<HTMLCanvasElement>()
+	const canvasRef = React.useRef<HTMLCanvasElement>(null)
 	const styles = useStyles()
 
  	React.useEffect(() => {
