@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 
 const TailWindDemo = tw.div`
 bg-blue-100
+p-1
 `
 
 export const CanvasPlayground = () => {
@@ -29,6 +30,12 @@ export const CanvasPlayground = () => {
 
 	return (<div className={styles.container}>
 		<TailWindDemo>Hello world</TailWindDemo>
+		<div className="p-2 flex bg-yellow-100 justify-items-center justify-center">
+			<div className="bg-red-300 p-2">
+				left box
+			</div>
+			<div className="bg-blue-300 p-2">right box</div>
+		</div>
 		<canvas width={480} height={320}
 			ref={canvasRef} className={styles.canvas}
 		/>
