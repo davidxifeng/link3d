@@ -14,5 +14,6 @@
     "tailwindCSS.includeLanguages": {
         "typescript": "javascript",
         "typescriptreact": "javascript"
-    }
+    },
+    "editor.lineNumbers": "relative"
 }

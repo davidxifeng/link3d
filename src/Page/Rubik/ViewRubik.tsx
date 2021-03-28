@@ -2,11 +2,10 @@ import React from 'react'
 import { CubieView, } from './ViewCubie'
 import { useRubikOrientation } from './hooks'
 import { L, M, R, rubikInit, rubikReducer, U } from './rubik'
-import { useStyles } from './styles'
+import { RubikDiv, WorldDiv } from './styles'
 
 
 export const Rubik = () => {
-	const styles = useStyles()
 
 	const { angle } = useRubikOrientation()
 	const [cubieList, dispatch] = React.useReducer(rubikReducer, undefined, rubikInit)
@@ -30,10 +29,10 @@ export const Rubik = () => {
 		<button onClick={() => dispatch(U(2))}>Up 2</button>
 		<button onClick={() => dispatch(U(3))}>Up'</button>
 
-		<div className={styles.world}>
-			<div className={styles.rubik} style={{
+		<WorldDiv>
+			<RubikDiv style={{
 				transform: `translateY(200px) translateZ(-250px) rotateX(${angle.x}deg) rotateY(${angle.y}deg)`
-			}}>{cubeViews}</div>
-		</div>
+			}}>{cubeViews}</RubikDiv>
+		</WorldDiv>
 	</div>)
 }

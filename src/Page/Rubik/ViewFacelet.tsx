@@ -1,6 +1,5 @@
-import React from 'react'
 import { Facelet } from './rubik'
-import { useStyles } from './styles'
+import { FaceletDiv, StickerDiv, } from './styles'
 
 export enum FaceType {
 	Front = 'front',
@@ -35,19 +34,13 @@ interface ViewFaceletProps {
 }
 export const ViewFacelet = (props: ViewFaceletProps) => {
 	const {
-		facelet: {transform, color},
+		facelet: { transform, color },
 		devInfo,
-	 } = props
+	} = props
 
-	const styles = useStyles()
-
-	return (<div className={styles.facelet} style={{
-		transform: FaceTransform[transform],
-	}}>
-		<div className={styles.sticker} style={{
-			backgroundColor: FaceColors[color],
-		}}>
+	return (<FaceletDiv style={{ transform: FaceTransform[transform] }}>
+		<StickerDiv style={{ backgroundColor: FaceColors[color], }}>
 			{devInfo}
-		</div>
-	</div>)
+		</StickerDiv>
+	</FaceletDiv>)
 }
